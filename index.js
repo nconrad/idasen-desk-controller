@@ -8,15 +8,19 @@ import 'regenerator-runtime/runtime'
 import './node_modules/material-design-icons/iconfont/material-icons.css'
 
 
-const App = () => {
-  const desk = new Desk()
+const desk = new Desk()
 
+const App = () => {
   const [paired, setPaired] = useState(false)
 
   const onPair = async () => {
     try {
       await desk.request()
       await desk.connect()
+      await desk.onPositionChange((evt) => {
+        const value = evt.target.value;
+        console.dir(value.buffer);
+      })
       setPaired(true)
     } catch(error) {
       alert(error)

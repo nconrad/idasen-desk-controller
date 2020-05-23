@@ -1,10 +1,14 @@
 const serviceID = '99fa0001-338a-1024-8a49-009c0215f78a'
-const characteristicID = '99fa0002-338a-1024-8a49-009c0215f78a'
+const charID = '99fa0002-338a-1024-8a49-009c0215f78a'
+
+const positionServiceID = '99fa0020-338a-1024-8a49-009c0215f78a'
+const positionCharID = '99fa0021-338a-1024-8a49-009c0215f78a'
 
 export default class Desk {
 
   constructor() {
     this.device = null
+    this.server = null
     this.service = null
     this.onDisconnected = this.onDisconnected.bind(this)
   }
@@ -12,7 +16,7 @@ export default class Desk {
   async request() {
     const options = {
       optionalServices: [
-        serviceID
+        serviceID, positionServiceID
       ],
       filters: [{
         namePrefix: 'Desk'
@@ -28,8 +32,8 @@ export default class Desk {
   async connect() {
     if (!this.device) throw 'Device is not connected.'
 
-    const server = await this.device.gatt.connect()
-    this.service = await server.getPrimaryService(serviceID)
+    this.server = await this.device.gatt.connect()
+    this.service = await this.server.getPrimaryService(serviceID)
   }
 
   disconnect() {
@@ -56,9 +60,18 @@ export default class Desk {
   }
 
   async sendCmd(cmd) {
-    const char = await this.service.getCharacteristic(characteristicID)
+    const char = await this.service.getCharacteristic(charID)
     await char.writeValue(hexStrToArray(cmd))
   }
+
+  async onPositionChange(callback) {
+    const service = await this.server.getPrimaryService(positionServiceID);
+    const char = await service.getCharacteristic(positionCharID);
+
+    await char.startNotifications();
+    char.addEventListener('characteristicvaluechanged', callback);
+  }
+
 }
 
 
