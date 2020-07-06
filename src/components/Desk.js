@@ -1,8 +1,11 @@
+import 'regenerator-runtime/runtime'
+
 const serviceID = '99fa0001-338a-1024-8a49-009c0215f78a'
 const charID = '99fa0002-338a-1024-8a49-009c0215f78a'
 
 const positionServiceID = '99fa0020-338a-1024-8a49-009c0215f78a'
 const positionCharID = '99fa0021-338a-1024-8a49-009c0215f78a'
+
 
 export default class Desk {
 
@@ -48,7 +51,7 @@ export default class Desk {
   }
 
   async moveUp() {
-    this.sendCmd('4700')
+    await this.sendCmd('4700')
   }
 
   async moveDown() {
@@ -64,12 +67,20 @@ export default class Desk {
     await char.writeValue(hexStrToArray(cmd))
   }
 
-  async onPositionChange(callback) {
+  async getCurrentPosition() {
     const service = await this.server.getPrimaryService(positionServiceID);
     const char = await service.getCharacteristic(positionCharID);
+    const value = await char.readValue()
 
-    await char.startNotifications();
-    char.addEventListener('characteristicvaluechanged', callback);
+    return value.buffer
+  }
+
+  async onPositionChange(callback) {
+    const service = await this.server.getPrimaryService(positionServiceID)
+    const char = await service.getCharacteristic(positionCharID)
+
+    await char.startNotifications()
+    char.addEventListener('characteristicvaluechanged', callback)
   }
 
 }
