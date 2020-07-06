@@ -7,13 +7,13 @@ import Desk from './components/Desk'
 import 'regenerator-runtime/runtime'
 import '../node_modules/material-design-icons/iconfont/material-icons.css'
 
+const REPO_URL = 'https://github.com/nconrad/idasen-web-controller'
+
 // import {version} from '../package.json'
 
 const desk = new Desk()
-
 const bufferToNum = buff => new Uint16Array(buff)[0]
 
-const sleep = 700;
 
 // todo: this may be slope of .1
 const toInches = (position) => {
@@ -21,11 +21,12 @@ const toInches = (position) => {
   return (mm / 25.4).toFixed(1)
 }
 
+
 const App = () => {
   const [paired, setPaired] = useState(false)
   const [storingMem, setStoringMem] = useState(false)
 
-  const [movingTo, setMovingTo]  = useState({})
+  const [movingTo, setMovingTo]  = useState({direction: null, position: null})
   const [position, setPosition] = useState(null)
 
   const [mem, setMem] = useState({
@@ -46,7 +47,7 @@ const App = () => {
     moveDesk(movingTo.direction)
     const interval = setInterval(() => {
       moveDesk(movingTo.direction)
-    }, sleep);
+    }, 700);
 
     return () => {
       clearInterval(interval)
@@ -122,7 +123,7 @@ const App = () => {
     <Root>
       <CtrlContainer>
         <TitleBar>
-          Deskomatic - v0.9.1
+          <a href={REPO_URL} target="_blank">Deskomatic <small>v0.9.1</small></a>
         </TitleBar>
 
         <Btn onClick={onPair} title="pair bluetooth" className={`blue-tooth ${!paired && 'green'}`}>
@@ -194,22 +195,38 @@ const Root = styled.div`
 const TitleBar = styled.div`
   font-size: .8em;
   color: #d2d2d2;
+
+  & a,
+  & a:visited {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  & a:hover {
+    color: #aaa;
+  }
+
+  & small {
+    opacity: 0.75;
+  }
 `
 
 const CtrlContainer = styled.div`
   -webkit-app-region: drag;
-  width: 610px;
+  width: 550px;
   height: 80px;
   background: #222;
   position: relative;
   display: block;
   padding: 10px;
-  display: table; text-align: center;
+  display: table;
 `
 
 const backgroundColor = '#222'
 const btnOnColor = '#f2f2f2'
-const btnHoverColor = '#00eeff'
+const btnHoverColor = '#aaa'
+
+const disabledColor = '#888'
 
 const smallBtnWidth = '1.75em'
 const medBtnWidth = '50px'
@@ -242,8 +259,8 @@ const Btn = styled.button`
 
   &:disabled {
     cursor: not-allowed;
-    border: 1px solid #888;
-    color:  #888;
+    border-color: ${disabledColor};
+    color: ${disabledColor};
   }
 
   &:focus {
@@ -283,15 +300,18 @@ const Position = styled.button`
   user-select: none;
   width: ${wideBtnWidth};
   height: 28px;
-  background: ${backgroundColor};
+  background: #000;
   color: ${btnOnColor};
-  border: 1px dashed ${btnOnColor};
+  border: none;
   border-radius: 5px;
   margin: 20px 5px;
 
+  outline-style: double;
+  outline-color: #444;
+  outline-width: 2px;
+
   &.disabled {
-    border: 1px solid #888;
-    color:  #888;
+    color: ${disabledColor};
   }
 `
 

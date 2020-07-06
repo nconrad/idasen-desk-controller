@@ -1,9 +1,9 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, shell } = require('electron')
 
 function createWindow () {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 610,
+    width: 550,
     height: 100,
     frame: false,
     webPreferences: {
@@ -35,8 +35,10 @@ function createWindow () {
   })
 
   // Open the DevTools.
-  win.webContents.openDevTools()
+  // win.webContents.openDevTools()
 }
+
+
 
 app.commandLine.appendSwitch('enable-experimental-web-platform-features')
 
