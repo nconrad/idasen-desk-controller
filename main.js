@@ -23,9 +23,10 @@ function createWindow () {
 
   win.webContents.on('select-bluetooth-device', (event, deviceList, callback) => {
     event.preventDefault()
-    let result = deviceList.find((device) =>
-      device.deviceName.includes('Desk')
-    )
+
+    let result = deviceList.find((device) => {
+      return device.deviceName.includes('Desk')
+    })
 
     if (!result) {
       callback('Sorry, could not find a desk.')
@@ -37,8 +38,6 @@ function createWindow () {
   // Open the DevTools.
   // win.webContents.openDevTools()
 }
-
-
 
 app.commandLine.appendSwitch('enable-experimental-web-platform-features')
 

@@ -101,10 +101,9 @@ const App = () => {
       return
     }
 
-    // otherwise
+    // otherwise, move to position
     const storedPosition = Number(localStorage.getItem(`memory-${memSpot}`))
     const direction = position < storedPosition ? 'up' : 'down'
-
     setMovingTo({
       direction,
       position: storedPosition
@@ -123,7 +122,7 @@ const App = () => {
     <Root>
       <CtrlContainer>
         <TitleBar>
-          <a href={REPO_URL} target="_blank">Deskomatic <small>v0.9.1</small></a>
+          <a href={REPO_URL} target="_blank">Deskomatik <small>v0.9.1</small></a>
         </TitleBar>
 
         <Btn onClick={onPair} title="pair bluetooth" className={`blue-tooth ${!paired && 'green'}`}>
