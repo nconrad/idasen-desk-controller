@@ -1,11 +1,12 @@
 {
   "name": "idasen-controller",
-  "version": "0.9.0",
-  "description": "JavaScript/Bluetooth Web App for Controlling Ikea Idasen (Linak) Desks",
-  "main": "index.js",
+  "version": "0.9.1",
+  "description": "JavaScript/Bluetooth App for Controlling Ikea Idasen (Linak) Desks",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "parcel index.html --open"
+    "start": "parcel ./src/index.html --open",
+    "start-dev": "ELECTRON_START_URL=http://localhost:1234 electron main.js",
+    "build": "parcel build ./src/index.html",
+    "electron": "electron main.js"
   },
   "repository": {
     "type": "git",
@@ -18,14 +19,15 @@
   },
   "homepage": "https://github.com/nconrad/idasen-web-controller#readme",
   "devDependencies": {
-    "parcel": "^2.0.0-alpha.3.2"
+    "electron": "^9.0.5",
+    "parcel": "^1.12.4",
+    "regenerator-runtime": "^0.13.5",
+    "wait-on": "^5.0.1"
   },
   "dependencies": {
-    "components": "^0.1.0",
     "material-design-icons": "^3.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-is": "^16.13.1",
     "styled-components": "^5.1.0"
   }
 }
