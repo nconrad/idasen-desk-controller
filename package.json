@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/nconrad/idasen-web-controller#readme",
   "devDependencies": {
-    "electron": "^9.0.5",
+    "electron": "^13.6.6",
     "parcel": "^1.12.4",
     "regenerator-runtime": "^0.13.5",
     "wait-on": "^5.0.1"
